@@ -18,11 +18,14 @@ module.exports = function (globs, options) {
         var file_content = '';
         try {
             file_content = fs.readFileSync(abs_path, 'utf8');
-        } catch(e) {
-            // File is probably gone
+        } catch (e) {
+            // File might be gone. Let's untrack that file for now.
         }
 
+        edges.remove_for_x(abs_path);
+
         var dependencies = [];
+
         if (file_content) {
             var parser = new JadeParser(file_content, abs_path, options);
             // Modified from: JadeParser.parse()
@@ -46,7 +49,6 @@ module.exports = function (globs, options) {
             }
         }
 
-        edges.remove_for_x(abs_path);
         dependencies.map(function (dependency) {
             edges.add(abs_path, dependency);
         });
@@ -70,13 +72,13 @@ module.exports = function (globs, options) {
     }
 
     function find_dependents(file_path) {
-        return bfs_dependency(path.resolve(file_path), function(abs_path) {
+        return bfs_dependency(path.resolve(file_path), function (abs_path) {
             return edges.get_for_y(abs_path);
         });
     }
 
     function find_dependencies(file_path) {
-        return bfs_dependency(path.resolve(file_path), function(abs_path) {
+        return bfs_dependency(path.resolve(file_path), function (abs_path) {
             return edges.get_for_x(abs_path);
         });
     }
