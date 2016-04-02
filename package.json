@@ -1,7 +1,7 @@
 {
   "name": "jade-dependency",
   "description": "Find jade file dependents (include and extend).",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/lishid/jade-dependency",
   "repository": "git://github.com/lishid/jade-dependency.git",
   "author": "Shida Li <lishid@gmail.com>",

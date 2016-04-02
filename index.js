@@ -15,26 +15,34 @@ module.exports = function (globs, options) {
     function resolve_file(file_path) {
         var abs_path = path.resolve(file_path);
 
-        var file_content = fs.readFileSync(abs_path, 'utf8');
-        var parser = new JadeParser(file_content, abs_path, options);
-        var dependencies = [];
-        // Modified from: JadeParser.parse()
-        while (true) {
-            var type = parser.peek().type;
-            if (type === 'eos') {
-                break;
-            }
+        var file_content = '';
+        try {
+            file_content = fs.readFileSync(abs_path, 'utf8');
+        } catch(e) {
+            // File is probably gone
+        }
 
-            // Modified from: JadeParser.parseExpr()
-            switch (type) {
-                case 'extends':
-                case 'include':
-                    // Modified from: JadeParser.parseInclude()
-                    var dependency = path.resolve(parser.resolvePath(parser.expect(type).val.trim(), type));
-                    dependencies.push(dependency);
+        var dependencies = [];
+        if (file_content) {
+            var parser = new JadeParser(file_content, abs_path, options);
+            // Modified from: JadeParser.parse()
+            while (true) {
+                var type = parser.peek().type;
+                if (type === 'eos') {
                     break;
-                default:
-                    parser.advance();
+                }
+
+                // Modified from: JadeParser.parseExpr()
+                switch (type) {
+                    case 'extends':
+                    case 'include':
+                        // Modified from: JadeParser.parseInclude()
+                        var dependency = path.resolve(parser.resolvePath(parser.expect(type).val.trim(), type));
+                        dependencies.push(dependency);
+                        break;
+                    default:
+                        parser.advance();
+                }
             }
         }
 
