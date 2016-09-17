@@ -5,7 +5,9 @@ var fs = require('fs');
 var glob = require('glob');
 
 var edgestore = require('edgestore');
-var JadeParser = require('jade/lib/parser');
+var lex = require('pug-lexer');
+var parse = require('pug-parser');
+var walk = require('pug-walk');
 
 module.exports = function (globs, options) {
     var paths = glob.sync(globs);
@@ -27,26 +29,23 @@ module.exports = function (globs, options) {
         var dependencies = [];
 
         if (file_content) {
-            var parser = new JadeParser(file_content, abs_path, options);
-            // Modified from: JadeParser.parse()
-            while (true) {
-                var type = parser.peek().type;
-                if (type === 'eos') {
-                    break;
-                }
-
-                // Modified from: JadeParser.parseExpr()
-                switch (type) {
-                    case 'extends':
-                    case 'include':
-                        // Modified from: JadeParser.parseInclude()
-                        var dependency = path.resolve(parser.resolvePath(parser.expect(type).val.trim(), type));
+            var tokens = lex(file_content);
+            var ast = parse(tokens, {src: abs_path});
+            walk(ast, function (node) {
+                if (node.type === 'Include' || node.type === 'RawInclude' || node.type === 'Extends') {
+                    var file = node.file;
+                    if (file.type !== 'FileReference') {
+                        throw new Error('Expected file.type to be "FileReference"');
+                    }
+                    try {
+                        var dependency = path.resolve(path.dirname(abs_path), file.path);
                         dependencies.push(dependency);
-                        break;
-                    default:
-                        parser.advance();
+                    } catch (ex) {
+                        ex.message += '\n    at ' + node.filename + ' line ' + node.line;
+                        throw ex;
+                    }
                 }
-            }
+            });
         }
 
         dependencies.map(function (dependency) {

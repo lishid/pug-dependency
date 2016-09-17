@@ -1,19 +1,21 @@
 {
-  "name": "jade-dependency",
-  "description": "Find jade file dependents (include and extend).",
-  "version": "1.0.2",
-  "homepage": "https://github.com/lishid/jade-dependency",
-  "repository": "git://github.com/lishid/jade-dependency.git",
+  "name": "pug-dependency",
+  "description": "Find pug file dependents (include and extend).",
+  "version": "1.0.0",
+  "homepage": "https://github.com/lishid/pug-dependency",
+  "repository": "git://github.com/lishid/pug-dependency.git",
   "author": "Shida Li <lishid@gmail.com>",
   "main": "./index.js",
   "keywords": [
-    "jade",
+    "pug",
     "dependency"
   ],
   "dependencies": {
     "edgestore": "^1.0.3",
     "glob": "^7.0.3",
-    "jade": "1.1 - 1.11"
+    "pug-lexer": "^2.0.0",
+    "pug-parser": "^2.0.0",
+    "pug-walk": "^1.0.0"
   },
   "license": "MIT"
 }

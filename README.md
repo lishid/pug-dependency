@@ -1,23 +1,23 @@
-jade-dependency
+pug-dependency
 ===========
 
-Find jade file dependency (include and extend).
+Find pug file dependency (include and extend).
 
 Example
 ---
 ```javascript
 
-var dependency = require('jade-dependency');
+var dependency = require('pug-dependency');
 
-var d = dependency('jade/**/*.jade');
+var d = dependency('pug/**/*.pug');
 
-d.find_dependencies('jade/child.jade');
+d.find_dependencies('pug/child.pug');
 // [
-//   '/repo/jade/_parent.jade',
-//   '/repo/jade/_grand_parent.jade',
-//   '/repo/jade/_component.jade',
-//   '/repo/jade/_sub_component1.jade',
-//   '/repo/jade/_sub_component2.jade'
+//   '/repo/pug/_parent.pug',
+//   '/repo/pug/_grand_parent.pug',
+//   '/repo/pug/_component.pug',
+//   '/repo/pug/_sub_component1.pug',
+//   '/repo/pug/_sub_component2.pug'
 // ]
 
 d.find_dependents('jade/_sub_component1.jade');
