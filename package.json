@@ -1,7 +1,7 @@
 {
   "name": "pug-dependency",
   "description": "Find pug file dependents (include and extend).",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/lishid/pug-dependency",
   "repository": "git://github.com/lishid/pug-dependency.git",
   "author": "Shida Li <lishid@gmail.com>",

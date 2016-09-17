@@ -20,16 +20,16 @@ d.find_dependencies('pug/child.pug');
 //   '/repo/pug/_sub_component2.pug'
 // ]
 
-d.find_dependents('jade/_sub_component1.jade');
+d.find_dependents('pug/_sub_component1.pug');
 // [
-//   '/repo/jade/_component.jade',
-//   '/repo/jade/child.jade'
+//   '/repo/pug/_component.pug',
+//   '/repo/pug/child.pug'
 // ]
 
-d.find_dependents('jade/_grand_parent.jade');
+d.find_dependents('pug/_grand_parent.pug');
 // [
-//   '/repo/jade/_parent.jade',
-//   '/repo/jade/child.jade'
+//   '/repo/pug/_parent.pug',
+//   '/repo/pug/child.pug'
 // ]
 ```
 
@@ -39,7 +39,7 @@ API
 ### constructor(glob, options)
 
 glob: glob to select files to keep track of
-options: passed to jade
+options: passed to pug
 
 ### file_changed(path)
 
